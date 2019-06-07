@@ -1,18 +1,17 @@
-import requests
 from getpass import getpass
+from requests import get, post
 
-username = input("Enter your Username for Github : ")
+username = input("Username : ")
 password = getpass()
 
-response = requests.get("https://api.github.com/user",
-                        auth=(username, password))
+response = get("https://api.github.com/user", auth=(username, password))
 
 print(f"Authentication Status : {response}")
 
 name = input("Enter Repository Name : ")
 private = input("Private (True/False) : ")
 
-reponse = requests.post("https://api.github.com/user/repos",
-                        data={"name": name, "private": private})
+reponse = post("https://api.github.com/user/repos",
+               data={"name": name, "private": private})
 
 print(f"Repository Creation Status : {response}")
