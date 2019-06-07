@@ -10,7 +10,7 @@ response = requests.get("https://api.github.com/user",
 print(f"Authentication Status : {response}")
 
 name = input("Enter Repository Name : ")
-private = input("Private (Yes/No) : ")
+private = input("Private (True/False) : ")
 
 reponse = requests.post("https://api.github.com/user/repos",
                         data={"name": name, "private": private})
