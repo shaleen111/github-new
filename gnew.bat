@@ -1,1 +1,1 @@
-python C:\Users\shale\Desktop\Repositories\github-new\github-new.py -l
+python PATH/TO/GITHUB-NEW.PY -l
