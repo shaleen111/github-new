@@ -1,8 +1,11 @@
 import argparse
 from helpers import cprint, sinput
 from json import dump, dumps, load
+from os import system, path
 from requests import get, post
 from sys import exit
+
+CONFIG_PATH = path.join(path.dirname(__file__), "config.txt")
 
 
 def response_handler(action, response, accepted):
@@ -22,13 +25,14 @@ def create_rep(name, private, token):
     if private is None:
         private = bool(sinput("\tPrivate (True/False): ", ("true", "false")))
 
-    payload = {"name": name, "private": private, "autoinit": True}
+    payload = {"name": name, "private": private, "auto_init": True}
 
     response = post("https://api.github.com/user/repos",
                     data=dumps(payload),
                     headers={"Authorization": f"token {token}"})
 
     response_handler("Repository Creation", response, (200, 201))
+    return name
 
 
 def main():
@@ -46,6 +50,9 @@ def main():
                         help="Give repository Name")
     parser.add_argument("-p", "--private", type=bool, default=None,
                         help="Sets repository to be Private")
+    parser.add_argument("-l", "--local", action="store_true", default=False,
+                        help=("Clone the Created Repository to the Local "
+                              "Directory"))
 
     args = parser.parse_args()
 
@@ -57,7 +64,7 @@ def main():
             cprint("\t       Run program without the c flag!", color="Red")
             exit()
     elif args.oauth is None:
-        with open("config.txt", "r") as c:
+        with open(CONFIG_PATH, "r") as c:
             config = load(c)
             args.oauth = config["token"]
 
@@ -65,12 +72,17 @@ def main():
         response = get('https://api.github.com/user',
                        headers={'Authorization': f'token {args.oauth}'})
         response_handler("OAUTH Authorization", response, (200,))
+
         if args.save:
             config = {"token": args.oauth}
-            with open("config.txt", "w") as c:
+            with open(CONFIG_PATH, "w") as c:
                 dump(config, c)
 
-        create_rep(args.name, args.private, args.oauth)
+        args.name = create_rep(args.name, args.private, args.oauth)
+
+        if args.local:
+            username = response.json()["login"]
+            system(f"git clone https://github.com/{username}/{args.name}.git")
 
 
 if __name__ == "__main__":
