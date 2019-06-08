@@ -1,3 +1,25 @@
+from os import system
+
+colors = {
+            "Black": "\u001b[30m",
+            "Red": "\u001b[31m",
+            "Green": "\u001b[32m",
+            "Yellow": "\u001b[33m",
+            "Blue": "\u001b[34m",
+            "Magenta": "\u001b[35m",
+            "Cyan": "\u001b[36m",
+            "White": "\u001b[37m",
+            "ENDC": "\u001b[0m"
+          }
+
+
+def cprint(text, color):
+    # Colored Print
+    color = colors[color]
+    system('')
+    print(color + text + colors["ENDC"])
+
+
 def all_low_tup(tup):
     # Turns all string elements
     # of a tuple to lower case
