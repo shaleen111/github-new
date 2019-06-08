@@ -16,7 +16,7 @@ colors = {
 def cprint(text, color):
     # Colored Print
     color = colors[color]
-    system('')
+    system('')  # enable VT100 Escape Sequence for WINDOWS 10 Ver. 1607
     print(color + text + colors["ENDC"])
 
 

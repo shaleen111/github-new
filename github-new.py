@@ -1,5 +1,5 @@
 import argparse
-from helpers import sinput
+from helpers import cprint, sinput
 from json import dump, dumps, load
 from requests import get, post
 from sys import exit
@@ -9,17 +9,18 @@ def response_handler(action, response, accepted):
     status = response.status_code
     if status not in accepted:
         msg = response.json()["message"]
-        print(f"Error: {action} failed with code {status} ({msg})")
+        cprint(f"\tError: {action} failed with code {status} ({msg})",
+               color="Red")
         exit()
     else:
-        print(f"{action} Status: {status} (Successful)")
+        cprint(f"\t{action} Status: {status} (Successful)", color="Green")
 
 
 def create_rep(name, private, token):
-    name = input("Enter Repository Name: ") if name is None else name
+    name = input("\tEnter Repository Name: ") if name is None else name
 
     if private is None:
-        private = bool(sinput("Private (True/False): ", ("true", "false")))
+        private = bool(sinput("\tPrivate (True/False): ", ("true", "false")))
 
     payload = {"name": name, "private": private, "autoinit": True}
 
@@ -43,16 +44,17 @@ def main():
                         help="Alter configs only")
     parser.add_argument("-n", "--name", type=str, default=None,
                         help="Give repository Name")
-    parser.add_argument("-p", "--private", action="store_true", default=None,
+    parser.add_argument("-p", "--private", type=bool, default=None,
                         help="Sets repository to be Private")
 
     args = parser.parse_args()
-    print(args.private)
+
     if args.config is True:
         if (not args.name and args.private is not None) or \
            (args.oauth and not args.save):
-            print("Error: Cannot Create Repositories in Config Mode")
-            print("       Run program without the c flag!")
+            cprint("\tError: Cannot Create Repositories in Config Mode",
+                   color="Red")
+            cprint("\t       Run program without the c flag!", color="Red")
             exit()
     elif args.oauth is None:
         with open("config.txt", "r") as c:
@@ -72,4 +74,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except EOFError as e:
+        cprint("\tEncountered End of Program", color="Magenta")
+        exit()
