@@ -87,7 +87,8 @@ def main():
 
 if __name__ == "__main__":
     try:
+        cprint("Ctrl-Z to Exit Program", color="Cyan")
         main()
     except EOFError as e:
-        cprint("\tEncountered End of Program", color="Magenta")
+        cprint("Encountered End of Program", color="Magenta")
         exit()
