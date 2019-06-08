@@ -1,4 +1,6 @@
 def all_low_tup(tup):
+    # Turns all string elements
+    # of a tuple to lower case
     low_tup = ()
     for el in tup:
         # You can't update a tuple
