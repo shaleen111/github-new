@@ -1,6 +1,7 @@
 from os import system
 
-colors = {
+# ANSI CODES FOR COLORS
+COLORS = {
             "Black": "\u001b[30m",
             "Red": "\u001b[31m",
             "Green": "\u001b[32m",
@@ -15,7 +16,7 @@ colors = {
 
 def cprint(text, color):
     # Colored Print
-    color = colors[color]
+    color = COLORS[color]
     system('')  # enable VT100 Escape Sequence for WINDOWS 10 Ver. 1607
     print(color + text + colors["ENDC"])
 
