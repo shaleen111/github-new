@@ -18,7 +18,7 @@ def cprint(text, color):
     # Colored Print
     color = COLORS[color]
     system('')  # enable VT100 Escape Sequence for WINDOWS 10 Ver. 1607
-    print(color + text + colors["ENDC"])
+    print(color + text + COLORS["ENDC"])
 
 
 def all_low_tup(tup):

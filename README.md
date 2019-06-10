@@ -1,8 +1,8 @@
 # github-new
 ## A Simple Way of Making a New Repository From the Command Line
-**Current Version:** 1.0
+**Current Version:** 1.01
 
-**Last updated:** 6th June 2019
+**Last updated:** 10th June 2019
 
 **Last tested version:** 1.0
 
