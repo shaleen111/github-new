@@ -30,6 +30,8 @@ def response_handler(action, response, accepted):
 def create_rep(name, private, token):
     name = input("\tEnter Repository Name: ") if name is None else name
 
+    name = name.replace(" ", "-")
+
     if private is None:
         private = bool(sinput("\tPrivate (True/False): ", ("true", "false")))
 
@@ -59,8 +61,7 @@ def main():
     parser.add_argument("-p", "--private", type=bool, default=None,
                         help="Sets repository to be Private")
     parser.add_argument("-l", "--local", action="store_true", default=False,
-                        help=("Clone the Created Repository to the Local "
-                              "Directory"))
+                        help=("Clone the Created Repository to the Local \"Directory\"))
 
     args = parser.parse_args()
 
